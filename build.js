@@ -22,20 +22,14 @@ FileSystem.readdir(story).then(async dirs => {
         const replace = {};
 
         const meta = await (
-            Glob(Path.join(story, dir, "metadata.yaml"))
-            .then(path => FileSystem.readFile(path[0], "utf8"))
-            .then(file => YAML.parse(file))
+            FileSystem.readFile(Path.join(story, dir, "metadata.yaml"), "utf8")
+            .then(YAML.parse)
         );
 
         replace.meta = {
             series: "Pair Purgatory",
             title: meta.title,
             author: meta.author
-        };
-
-        replace.page = {
-            styles: "<!-- styles go here -->",
-            scripts: "<!-- scripts go here -->"
         };
 
         await Promise.all(
@@ -45,22 +39,39 @@ FileSystem.readdir(story).then(async dirs => {
         ).then(content => replace.content = 
             "<article>\n" +
             content.join(
-                " ".repeat(8) + "</article>" + "\n" +
-                " ".repeat(8) + "<article>" + "\n"
+                " ".repeat(8) + "</article>\n" +
+                " ".repeat(8) + "<article>\n"
             ) +
             " ".repeat(8) + "</article>"
         );
+        
+        const resource = {};
+        resource.css = await FileSystem.readFile(Path.join(story, dir, "style.css"), "utf8").catch(() => null);
+        resource.js = await FileSystem.readFile(Path.join(story, dir, "script.js"), "utf8").catch(() => null);
 
-        const page = template.replace(regex, (match, path) => 
+        replace.page = {};
+        
+        replace.page.css = resource.css
+            ? "<link rel=\"stylesheet\" href=\"./resource/style.css\" />"
+            : "<!-- no unique css -->";
+        replace.page.js = resource.js
+            ? "<script src=\"./resource/script.js\"></script>"
+            : "<!-- no unique javascript -->";
+        
+        const html = template.replace(regex, (match, path) => 
             path.split(".").reduce(
                 (obj, key) => obj?.[key] ?? match,
                 replace
             )
         );
 
-        const episode = Path.join(dist, meta.path)
-        await FileSystem.mkdir(episode, { recursive: true });
+        const episode = Path.join(dist, meta.path);
 
-        FileSystem.writeFile(Path.join(episode, "index.html"), page);
+        await FileSystem.mkdir(episode, { recursive: true });
+        FileSystem.writeFile(Path.join(episode, "index.html"), html);
+
+        await FileSystem.mkdir(Path.join(episode, "resource"));
+        if (resource.css) FileSystem.writeFile(Path.join(episode, "resource/style.css"), resource.css);
+        if (resource.js) FileSystem.writeFile(Path.join(episode, "resource/script.js"), resource.js);
     }
 });
