@@ -2,5 +2,9 @@
     "type": "module",
     "scripts": {
         "build": "node build.js"
+    },
+    "dependencies": {
+        "glob": "^13.0.0",
+        "yaml": "^2.8.2"
     }
 }
