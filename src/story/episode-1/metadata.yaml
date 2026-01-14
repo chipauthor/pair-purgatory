@@ -1,6 +1,8 @@
 title: Episode 1
 author: Hazel J.
-
-chapters:
+siblings:
+  prev: null
+  next: null
+content:
   - introduction.html
   - chapter-1.html
