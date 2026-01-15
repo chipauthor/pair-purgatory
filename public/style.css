@@ -1,15 +1,17 @@
-body {
-    max-width: 40em;
-    padding: 2em;
-    margin: auto;
-    
+:root {
     font-family: "Times New Roman", Times, serif;
     color: white;
-    
+
     background-color: #001;
     background-image: linear-gradient(180deg, #001, 60%, #223);
     background-attachment: fixed;
     background-size: cover;
+}
+
+body {
+    max-width: 40em;
+    padding: 2em;
+    margin: auto;
 }
 
 header {
