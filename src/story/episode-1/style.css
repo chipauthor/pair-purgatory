@@ -1,3 +1,27 @@
 .dream {
+    z-index: 0;
+
+    position: relative;
+
+    box-sizing: border-box;
+    padding: 0.5em 0;
+}
+
+.dream::before {
+    content: "";
+    z-index: -1;
     
+    display: block;
+    width: 100vw;
+
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(50% - 50vw);
+
+    border-style: solid none;
+    border-color: #33333377;
+    background-image: linear-gradient(180deg, #000, 60%, #222);
+    background-size: cover;
+    background-origin: border-box;
 }

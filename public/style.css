@@ -1,0 +1,29 @@
+body {
+    max-width: 40em;
+    padding: 2em;
+    margin: auto;
+
+    font-family: "Times New Roman", Times, serif;
+    color: white;
+    
+    background-image: linear-gradient(180deg, #001, 60%, #223);
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+header {
+    margin-bottom: 32px;
+}
+
+article {
+    margin: 2em 0;
+}
+
+p {
+    text-indent: 2em;
+    text-align: justify;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: normal;
+}
